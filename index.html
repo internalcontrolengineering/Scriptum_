@@ -6,517 +6,662 @@
 <title>Scriptum</title>
 <style>
 :root{
-  --bg:#0b0b0b; --card:#111; --muted:#999; --text:#eaeaea; --accent:#9ca3a8; --select-bg: rgba(255,255,255,0.02);
-  --transition: all 0.3s ease;
-  --shadow: 0 6px 18px rgba(0,0,0,.6);
-  --radius: 12px;
+  --bg:#0b0b0b;
+  --card:#121214;
+  --surface:#18181b;
+  --surface-hover:#202024;
+  --muted:#8e8e93;
+  --text:#f5f5f7;
+  --accent:#0a84ff;
+  --accent-contrast:#ffffff;
+  --border:rgba(255,255,255,0.08);
+  --select-bg:#18181b;
+  --option-bg:#18181b;
+  --transition:all 0.22s ease;
+  --shadow:0 12px 32px rgba(0,0,0,0.55);
+  --radius:14px;
+  --radius-sm:10px;
 }
-body{ 
-  background:var(--bg); 
-  color:var(--text); 
-  font-family:'Inter',Arial,Helvetica,sans-serif; 
-  margin:0; 
-  padding:0; 
-  transition: var(--transition);
+
+/* MODO CLARO APPLE SOBRIO */
+body.mode-light{
+  --bg:#f4f4f6;
+  --card:#ffffff;
+  --surface:#f9f9fb;
+  --surface-hover:#f0f0f4;
+  --muted:#6e6e73;
+  --text:#1d1d1f;
+  --border:rgba(0,0,0,0.08);
+  --select-bg:#ffffff;
+  --option-bg:#ffffff;
+  --shadow:0 10px 28px rgba(0,0,0,0.06);
 }
-.container{ 
-  max-width:900px; 
-  margin:28px auto; 
-  padding:18px; 
-  background:var(--card); 
-  border-radius:var(--radius); 
+
+/* MODO OSCURO APPLE SOBRIO */
+body.mode-dark{
+  --bg:#0b0b0b;
+  --card:#121214;
+  --surface:#18181b;
+  --surface-hover:#202024;
+  --muted:#8e8e93;
+  --text:#f5f5f7;
+  --border:rgba(255,255,255,0.08);
+  --select-bg:#18181b;
+  --option-bg:#18181b;
+  --shadow:0 12px 32px rgba(0,0,0,0.55);
+}
+
+/* COLORES DE ACENTO */
+body.color-blue{ --accent:#0a84ff; --accent-contrast:#ffffff; }
+body.mode-light.color-blue{ --accent:#007aff; --accent-contrast:#ffffff; }
+
+body.color-indigo{ --accent:#5e5ce6; --accent-contrast:#ffffff; }
+body.mode-light.color-indigo{ --accent:#5856d6; --accent-contrast:#ffffff; }
+
+body.color-teal{ --accent:#5ac8fa; --accent-contrast:#091820; }
+body.mode-light.color-teal{ --accent:#007791; --accent-contrast:#ffffff; }
+
+body.color-green{ --accent:#30d158; --accent-contrast:#071b0c; }
+body.mode-light.color-green{ --accent:#248a3d; --accent-contrast:#ffffff; }
+
+body.color-orange{ --accent:#ff9f0a; --accent-contrast:#1b1102; }
+body.mode-light.color-orange{ --accent:#c93400; --accent-contrast:#ffffff; }
+
+body.color-pink{ --accent:#ff375f; --accent-contrast:#ffffff; }
+body.mode-light.color-pink{ --accent:#d30f45; --accent-contrast:#ffffff; }
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", Arial, sans-serif;
+  margin:0;
+  padding:0 0 48px 0;
+  transition:var(--transition);
+  -webkit-font-smoothing:antialiased;
+}
+
+.container{
+  max-width:900px;
+  margin:28px auto;
+  padding:20px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
   box-shadow:var(--shadow);
-  transition: var(--transition);
+  transition:var(--transition);
 }
-h1{ 
-  margin:0 0 10px 0; 
+
+h1{
+  margin:0 0 10px 0;
   text-align:center;
-  font-weight: 600;
-  letter-spacing: -0.5px;
+  font-weight:600;
+  letter-spacing:-0.02em;
+  font-size:1.75rem;
 }
-.row{ 
-  display:flex; 
-  gap:10px; 
-  align-items:center; 
+
+input, textarea, select, button{
+  border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+  padding:10px 12px;
+  color:var(--text);
+  background:var(--surface);
+  transition:var(--transition);
+  font-family:inherit;
+  font-size:0.94rem;
 }
-input, textarea, select, button{ 
-  border-radius:8px; 
-  border:1px solid rgba(255,255,255,.06); 
-  padding:10px; 
-  color:var(--text); 
-  background: rgba(255,255,255,0.02); 
-  transition: var(--transition);
-  font-family: inherit;
+
+select#categoryFilter, select#existingCategory{
+  background:var(--select-bg);
+  color:var(--text);
+  -webkit-appearance:none;
+  appearance:none;
 }
-select#categoryFilter, select#existingCategory, select#themeSelect{ 
-  background: var(--select-bg); 
-  color: var(--text); 
-  -webkit-appearance: none; 
-  appearance: none; 
+
+select#categoryFilter option, select#existingCategory option{
+  background:var(--option-bg);
+  color:var(--text);
 }
-select#categoryFilter option, select#existingCategory option, select#themeSelect option{ 
-  background: #222; 
-  color:var(--text); 
+
+input::placeholder, textarea::placeholder{
+  color:var(--muted);
 }
-input::placeholder, textarea::placeholder{ 
-  color:var(--muted); 
+
+input:focus, textarea:focus, select:focus{
+  background:var(--surface-hover);
+  border-color:var(--accent);
+  outline:none;
 }
-input:focus, textarea:focus, select:focus{ 
-  background: rgba(255,255,255,0.05); 
-  border-color: var(--accent); 
-  box-shadow:0 0 10px var(--accent); 
-  outline:none; 
+
+textarea{
+  min-height:80px;
+  resize:vertical;
+  width:100%;
+  box-sizing:border-box;
 }
-textarea{ 
-  min-height:80px; 
-  resize:vertical; 
-  width:100%; 
+
+button{
+  cursor:pointer;
+  background:var(--accent);
+  color:var(--accent-contrast);
+  border:none;
+  transition:var(--transition);
+  font-weight:500;
 }
-button{ 
-  cursor:pointer; 
-  background:var(--accent); 
-  color:#111; 
-  border:none; 
-  transition: var(--transition);
-  font-weight: 500;
+
+button:hover{
+  filter:brightness(1.08);
+  transform:translateY(-1px);
 }
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+
+button.ghost-btn{
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--border);
 }
-.actions{ 
-  display:flex; 
-  gap:8px; 
-  flex-wrap:wrap; 
+
+button.ghost-btn:hover{
+  background:var(--surface-hover);
 }
-.entries{ 
-  margin-top:14px; 
-  background: rgba(255,255,255,0.02); 
-  padding:12px; 
-  border-radius:8px; 
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
-.entry{ 
-  padding:12px; 
-  border-radius:8px; 
-  margin-bottom:10px; 
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-  transition: var(--transition);
-  position: relative;
-  cursor: pointer;
+
+.entries{
+  margin-top:12px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:12px;
+  border-radius:var(--radius-sm);
 }
-.entry:hover {
-  background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.04));
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+.entry{
+  padding:12px 14px;
+  border-radius:var(--radius-sm);
+  margin-bottom:10px;
+  background:var(--card);
+  border:1px solid var(--border);
+  transition:var(--transition);
+  position:relative;
+  cursor:pointer;
 }
-.entry .meta{ 
-  font-size:0.85rem; 
-  color:var(--muted); 
-  display:flex; 
-  justify-content:space-between; 
-  align-items:center; 
+
+.entry:last-child{
+  margin-bottom:0;
 }
-.small{ 
-  font-size:0.9rem; 
-  color:var(--muted); 
+
+.entry:hover{
+  background:var(--surface-hover);
+  transform:translateY(-1px);
 }
-.controls{ 
-  display:flex; 
-  gap:10px; 
-  align-items:center; 
-  flex-wrap:wrap; 
-  margin-top:10px; 
+
+.entry .meta{
+  font-size:0.82rem;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:6px;
 }
-.filters{ 
-  display:flex; 
-  gap:8px; 
-  align-items:center; 
+
+.small{
+  font-size:0.86rem;
+  color:var(--muted);
 }
-.search-panel{ 
-  background:rgba(255,255,255,0.05); 
-  padding:12px; 
-  border-radius:var(--radius); 
-  margin-top:12px; 
-  display:flex; 
-  flex-wrap:wrap; 
-  gap:10px; 
-  align-items:center; 
-  justify-content:space-between; 
+
+.controls{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:10px;
 }
-.badge{ 
-  padding:6px 8px; 
-  border-radius:6px; 
-  background:#222; 
-  color:var(--muted); 
-  font-size:0.85rem; 
-  display: inline-block;
+
+.search-panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:12px;
+  border-radius:var(--radius);
+  margin-top:12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
 }
-.top-right{ 
-  display:flex; 
-  gap:8px; 
-  align-items:center; 
+
+.danger{
+  background:#8b1d1d;
+  color:#ffffff;
 }
-.danger{ 
-  background:#8b1d1d; 
-  color:#fff; 
+
+.panel{
+  margin-top:12px;
+  padding:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
 }
-.important{ 
-  border:2px solid #ffd54f; 
+
+.hidden{
+  display:none !important;
 }
-.archived{ 
-  opacity:.55; 
+
+/* Barra superior */
+.app-topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+  flex-wrap:wrap;
 }
-.panel{ 
-  margin-top:12px; 
-  padding:12px; 
-  background:rgba(255,255,255,0.02); 
-  border-radius:10px; 
-  transition: var(--transition);
+
+.gear-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 13px;
+  border-radius:999px;
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--border);
+  font-size:0.88rem;
+  font-weight:500;
 }
-.hidden{ 
-  display:none; 
+
+.gear-icon{
+  display:inline-block;
+  transition:transform 0.25s ease;
 }
-canvas{ 
-  max-width:100%; 
-  height:160px; 
-}
-footer{ 
-  text-align:center; 
-  color:var(--muted); 
-  font-size:0.85rem; 
-  margin-top:10px; 
+
+.gear-btn:hover .gear-icon{
+  transform:rotate(45deg);
 }
 
 /* Selector dentro del modal de edición */
-#editCategorySelect {
-    background: var(--select-bg);
-    color: var(--text);
-    -webkit-appearance: none;
-    appearance: none;
-    padding:8px;
-    border-radius:6px;
-    border:1px solid rgba(255,255,255,0.1);
+#editCategorySelect{
+  background:var(--select-bg);
+  color:var(--text);
+  -webkit-appearance:none;
+  appearance:none;
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid var(--border);
 }
 
-#editCategorySelect option {
-    background: #222;
-    color: var(--text);
+#editCategorySelect option{
+  background:var(--option-bg);
+  color:var(--text);
 }
 
-/* Themes base */
-.theme-black{--bg:#0b0b0b; --card:#111; --text:#eaeaea; --accent:#9ca3a8; --select-bg: rgba(255,255,255,0.02);}
-.theme-gray{--bg:#141414; --card:#1b1b1b; --text:#e8e8e8; --accent:#b0b0b0; --select-bg: rgba(255,255,255,0.02);}
-.theme-green{--bg:#0b2e2e; --card:#104040; --text:#e0f2f1; --accent:#4db6ac; --select-bg: rgba(255,255,255,0.02);}
-.theme-purple{--bg:#1b0b1b; --card:#331133; --text:#e8d4f2; --accent:#9c27b0; --select-bg: rgba(255,255,255,0.02);}
-.theme-turquoise{--bg:#0b1b1b; --card:#0f3333; --text:#e0f7f7; --accent:#26a69a; --select-bg: rgba(255,255,255,0.02);}
-
-/* responsive */
-@media(max-width:720px){ 
-  .row{ flex-direction:column; } 
-  .filters{ flex-direction:column; align-items:stretch; } 
-  .entry .meta { flex-direction: column; align-items: flex-start; gap: 5px; }
-  .search-panel { flex-direction: column; align-items: stretch; }
-  .advanced-search-fields { grid-template-columns: 1fr !important; }
+@media(max-width:720px){
+  .container{ margin:14px; padding:16px; }
+  .entry .meta{ flex-direction:column; align-items:flex-start; gap:4px; }
+  .search-panel{ flex-direction:column; align-items:stretch; }
+  .advanced-search-fields{ grid-template-columns:1fr !important; }
 }
 
 /* Modal para editar nota */
-#editModal{ 
-  position:fixed; 
-  top:0; 
-  left:0; 
-  width:100%; 
-  height:100%; 
-  background:rgba(0,0,0,0.7); 
-  display:none; 
-  justify-content:center; 
-  align-items:center; 
-  z-index:9999; 
-}
-#editModalContent{ 
-  background:var(--card); 
-  padding:20px; 
-  border-radius:var(--radius); 
-  width:90%; 
-  max-width:500px; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-#editModalContent textarea, #editModalContent select, #editModalContent input{ 
-  width:100%; 
-  margin-bottom:10px; 
-  padding:8px; 
-  border-radius:6px; 
-  border:1px solid rgba(255,255,255,0.1); 
-  background: rgba(255,255,255,0.02); 
-  color:var(--text); 
-}
-#editModalContent button{ 
-  margin-right:8px; 
+#editModal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.65);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  padding:16px;
 }
 
-/* Selects de Prioridad y Estatus dentro de cada nota */
-.controls select {
-    background: var(--select-bg);
-    color: var(--text);
-    -webkit-appearance: none;
-    appearance: none;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.1);
+#editModalContent{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:20px;
+  border-radius:var(--radius);
+  width:100%;
+  max-width:500px;
+  box-shadow:var(--shadow);
 }
 
-.controls select option {
-    background: #222;
-    color: var(--text);
+#editModalContent textarea, #editModalContent select, #editModalContent input{
+  width:100%;
+  margin-bottom:10px;
+  padding:9px 11px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  box-sizing:border-box;
 }
 
-#logoContainer {
-  text-align: center;
-  margin-top: 5px;
-  margin-bottom: 15px;
+#editModalContent button{
+  margin-right:8px;
 }
 
-#logo {
-  width: 80px;
-  height: auto;
-  filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
+/* MODAL DE CONFIGURACIÓN */
+.settings-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:10001;
+  padding:16px;
 }
 
-/* Nuevos estilos para mejoras */
+.settings-backdrop.open{
+  display:flex;
+}
+
+.settings-modal{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  width:100%;
+  max-width:560px;
+  max-height:88vh;
+  overflow-y:auto;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.settings-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:14px;
+}
+
+.settings-header h2{
+  margin:0;
+  font-size:1.15rem;
+  font-weight:600;
+}
+
+.close-modal-btn{
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--border);
+}
+
+.settings-section{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:14px;
+  margin-bottom:12px;
+}
+
+.settings-section:last-child{
+  margin-bottom:0;
+}
+
+.settings-section-title{
+  font-size:0.92rem;
+  font-weight:600;
+  margin:0 0 4px 0;
+}
+
+.mode-options{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:8px;
+  margin-top:10px;
+}
+
+.mode-chip{
+  padding:9px;
+  border-radius:8px;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+  font-size:0.86rem;
+  font-weight:500;
+  text-align:center;
+}
+
+.mode-chip.active{
+  background:var(--accent);
+  color:var(--accent-contrast);
+  border-color:var(--accent);
+}
+
+.color-swatches{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(110px, 1fr));
+  gap:8px;
+  margin-top:10px;
+}
+
+.color-swatch{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  border-radius:8px;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+  font-size:0.85rem;
+  font-weight:500;
+}
+
+.color-swatch.active{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.swatch-dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+.controls select{
+  background:var(--select-bg);
+  color:var(--text);
+  -webkit-appearance:none;
+  appearance:none;
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid var(--border);
+}
+
+.controls select option{
+  background:var(--option-bg);
+  color:var(--text);
+}
+
+#logoContainer{
+  text-align:center;
+  margin-top:5px;
+  margin-bottom:14px;
+}
+
+#logo{
+  max-width:150px;
+  height:auto;
+  transition:var(--transition);
+}
+#logo:hover{ transform:scale(1.03); }
+
+#loginView, #diaryView{ position:relative; }
+#loginView h1, #diaryView h1{ margin-top:4px; margin-bottom:4px; }
 
 /* Estadísticas */
-.stats-panel {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-  margin-bottom: 15px;
+.stats-panel{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+  gap:10px;
+  margin-bottom:15px;
 }
 
-.stat-card {
-  background: rgba(255,255,255,0.03);
-  border-radius: 8px;
-  padding: 12px;
-  text-align: center;
-  transition: var(--transition);
+.stat-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:12px;
+  text-align:center;
 }
 
-.stat-card:hover {
-  background: rgba(255,255,255,0.05);
-  transform: translateY(-3px);
+.stat-value{
+  font-size:1.5rem;
+  font-weight:700;
+  margin-bottom:4px;
 }
 
-.stat-value {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.stat-label {
-  font-size: 0.8rem;
-  color: var(--muted);
+.stat-label{
+  font-size:0.8rem;
+  color:var(--muted);
 }
 
 /* Etiquetas */
-.tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 8px;
+.tags-container{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
 }
 
-.tag {
-  background: rgba(255,255,255,0.1);
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+.tag{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:3px 9px;
+  border-radius:999px;
+  font-size:0.75rem;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
 }
 
-.tag-remove {
-  cursor: pointer;
-  font-weight: bold;
+.tag-remove{
+  cursor:pointer;
+  font-weight:700;
 }
 
 /* Favoritos */
-.favorite-btn {
-  background: none;
-  border: none;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 1.2rem;
-  padding: 0;
-  margin-right: 5px;
+.favorite-btn{
+  background:none;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  font-size:1.2rem;
+  padding:0;
+  margin-right:5px;
 }
 
-.favorite-btn.active {
-  color: #ffd54f;
+.favorite-btn.active{
+  color:#ffd60a;
 }
 
 /* Búsqueda avanzada */
-.advanced-search {
-  background: rgba(255,255,255,0.03);
-  border-radius: 8px;
-  padding: 12px;
-  margin-top: 10px;
+.advanced-search{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:12px;
+  margin-top:10px;
 }
 
-.advanced-search.hidden {
-  display: none;
+.advanced-search.hidden{
+  display:none;
 }
 
-.advanced-search-fields {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-bottom: 10px;
+.advanced-search-fields{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:15px;
+  margin-bottom:10px;
 }
 
 /* Recordatorios */
-.reminder-badge {
-  background: #ff9800;
-  color: #000;
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-size: 0.7rem;
-  margin-left: 5px;
+.reminder-badge{
+  background:#ff9f0a;
+  color:#000;
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:0.72rem;
+  font-weight:600;
+  margin-left:5px;
 }
 
-.reminder-active {
-  border: 2px solid #ff9800;
-  animation: pulse 2s infinite;
+.reminder-active{
+  border:2px solid #ff9f0a;
+  animation:pulse 2s infinite;
 }
 
-@keyframes pulse {
-  0% { border-color: #ff9800; }
-  50% { border-color: #ff5722; }
-  100% { border-color: #ff9800; }
+@keyframes pulse{
+  0%{ border-color:#ff9f0a; }
+  50%{ border-color:#ff453a; }
+  100%{ border-color:#ff9f0a; }
 }
 
-/* Navegación entre notas */
-.navigation-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
+.priority-high{ border-left:3px solid #ff453a; }
+.priority-medium{ border-left:3px solid #ff9f0a; }
+.priority-low{ border-left:3px solid #30d158; }
+
+.status-complete{ border-right:3px solid #30d158; }
+.status-in-progress{ border-right:3px solid #0a84ff; }
+.status-paused{ border-right:3px solid #ff9f0a; }
+.status-issue{ border-right:3px solid #ff453a; }
+
+.tab-content{ display:none; }
+.tab-content.active{ display:block; }
+
+@keyframes fadeIn{
+  from{ opacity:0; transform:translateY(6px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+.fade-in{ animation:fadeIn 0.2s ease forwards; }
+
+::-webkit-scrollbar{ width:8px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:rgba(128,128,128,0.3); border-radius:999px; }
+
+.form-group{ margin-bottom:12px; }
+.form-group label{ display:block; margin-bottom:5px; font-size:0.86rem; color:var(--muted); }
+.form-row{ display:flex; gap:10px; margin-bottom:10px; }
+.form-row .form-group{ flex:1; margin-bottom:0; }
+
+.action-buttons{ display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+
+.checkbox-container{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:12px;
+  justify-content:flex-start;
+  width:fit-content;
+}
+.checkbox-container input[type="checkbox"]{
+  margin:0;
+  width:16px;
+  height:16px;
+  flex-shrink:0;
+}
+.checkbox-container label{
+  margin:0;
+  white-space:nowrap;
+  font-size:0.88rem;
 }
 
-.nav-btn {
-  background: rgba(255,255,255,0.05);
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-}
-
-/* Vista previa rápida */
-.quick-preview {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--card);
-  border-radius: 8px;
-  padding: 15px;
-  max-width: 300px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  z-index: 1000;
-  transition: var(--transition);
-  transform: translateY(100px);
-  opacity: 0;
-}
-
-.quick-preview.show {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.quick-preview-content {
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-/* Indicadores visuales */
-.priority-high { border-left: 3px solid #f44336; }
-.priority-medium { border-left: 3px solid #ff9800; }
-.priority-low { border-left: 3px solid #4caf50; }
-
-.status-complete { border-right: 3px solid #4caf50; }
-.status-in-progress { border-right: 3px solid #2196f3; }
-.status-paused { border-right: 3px solid #ff9800; }
-.status-issue { border-right: 3px solid #f44336; }
-
-/* Pestañas */
-.tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; }
-.tab { padding: 10px 15px; cursor: pointer; border-bottom: 2px solid transparent; transition: var(--transition); }
-.tab.active { border-bottom: 2px solid var(--accent); color: var(--accent); }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-
-/* Animaciones */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.fade-in { animation: fadeIn 0.3s ease forwards; }
-
-/* Mejoras de accesibilidad */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Scroll personalizado */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
-
-/* Formularios mejorados */
-.form-group { margin-bottom: 12px; }
-.form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--muted); }
-.form-row { display: flex; gap: 10px; margin-bottom: 10px; }
-.form-row .form-group { flex: 1; margin-bottom: 0; }
-
-/* Botones de acción */
-.action-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
-
-/* Mejoras para campos de entrada */
-.input-with-icon { position: relative; }
-.input-with-icon input { padding-left: 35px; width: 100%; }
-.input-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); }
-
-/* Gráficos */
-.chart-container { position: relative; height: 200px; width: 100%; }
-
-/* CORRECCIONES ESPECÍFICAS PARA LOS PROBLEMAS MENCIONADOS */
-
-/* 1. Mejorar alineación del checkbox de favoritos */
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  justify-content: flex-start;
-  width: fit-content;
-}
-.checkbox-container input[type="checkbox"] {
-  margin: 0;
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-.checkbox-container label {
-  margin: 0;
-  white-space: nowrap;
-  font-size: 0.9rem;
-}
-
-/* 2. Mejorar visibilidad de los selects en búsqueda avanzada */
 #advancedSearch select,
 #statusFilter,
 #priorityFilter,
@@ -525,14 +670,15 @@ footer{
 #advancedSearchStatus,
 #advancedSearchPriority,
 #advancedSearchFavorite,
-#advancedSearchReminder {
-  background: #1a1a1a !important;
-  color: #eaeaea !important;
-  border: 1px solid rgba(255,255,255,0.2) !important;
-  padding: 8px;
-  border-radius: 6px;
-  width: 100%;
+#advancedSearchReminder{
+  background:var(--select-bg) !important;
+  color:var(--text) !important;
+  border:1px solid var(--border) !important;
+  padding:8px 10px;
+  border-radius:8px;
+  width:100%;
 }
+
 #advancedSearch select option,
 #statusFilter option,
 #priorityFilter option,
@@ -541,130 +687,162 @@ footer{
 #advancedSearchStatus option,
 #advancedSearchPriority option,
 #advancedSearchFavorite option,
-#advancedSearchReminder option {
-  background: #1a1a1a !important;
-  color: #eaeaea !important;
+#advancedSearchReminder option{
+  background:var(--option-bg) !important;
+  color:var(--text) !important;
 }
 
-/* 3. Asegurar que los selects en búsqueda avanzada no se encimen */
-.advanced-search-fields {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-bottom: 10px;
+.advanced-search .form-group{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
 }
-.advanced-search .form-group {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-.advanced-search .form-group label {
-  margin-bottom: 5px;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
+
 .advanced-search .form-group select,
-.advanced-search .form-group input {
-  width: 100%;
-  box-sizing: border-box;
+.advanced-search .form-group input{
+  width:100%;
+  box-sizing:border-box;
 }
 
-#logoControlInternoLogin:hover,
-#logoControlInternoApp:hover {
-    transform: scale(1.05);
-    opacity: 1;
+/* Autenticación */
+.auth-box{
+  max-width:400px;
+  margin:14px auto 0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.auth-box input{
+  width:100%;
+  box-sizing:border-box;
+}
+.auth-subtitle{
+  font-size:0.86rem;
+  color:var(--muted);
+  margin:0;
 }
 
-/* El logo CSW se mantiene con sus colores originales */
-#logo {
-    max-width: 180px;
-    height: auto;
-    transition: var(--transition);
-    /* Sin filter para mantener colores originales */
+.pw-rules{
+  text-align:left;
+  font-size:0.78rem;
+  color:var(--muted);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 11px;
+  margin:0;
 }
-#logo:hover { transform: scale(1.05); }
 
-/* Ajuste del contenedor de logos en ambas vistas */
-#loginView, #diaryView { position: relative; }
-#loginView h1, #diaryView h1 { margin-top: 5px; margin-bottom: 5px; }
+.change-pw-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+  gap:8px;
+  margin-top:8px;
+}
+.change-pw-grid input{
+  width:100%;
+  box-sizing:border-box;
+}
 
-/* ============================
-   BOTÓN FLOTANTE FULLSCREEN
-   (arriba, sin scroll)
-   ============================ */
+.msg-error{ color:#ff453a; }
+.msg-success{ color:#30d158; }
+
+.footer-bar{
+  display:flex;
+  justify-content:space-between;
+  margin-top:20px;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+/* BOTÓN FLOTANTE FULLSCREEN */
 .fullscreen-fab{
-  position: fixed;
-  top: 14px;
-  right: 14px;
-  z-index: 10000;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.08);
-  color: var(--text);
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:10000;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  transition:var(--transition);
+  user-select:none;
 }
 .fullscreen-fab:hover{
-  transform: translateY(-2px);
-  background: rgba(255,255,255,0.12);
+  background:var(--surface-hover);
 }
 </style>
 </head>
 
-<body class="theme-black">
+<body class="mode-dark color-blue">
 
-<!-- BOTÓN FULLSCREEN (siempre visible arriba a la derecha) -->
+<!-- BOTÓN FULLSCREEN -->
 <button id="fullscreenBtn" class="fullscreen-fab" title="Pantalla completa" aria-label="Pantalla completa">
   <span id="fullscreenIcon">⛶</span>
 </button>
 
 <div class="container" id="app">
-<!-- Login -->
-<div id="loginView" style="text-align:center">
-    <!-- Logo de Control Interno arriba-->
-    <div style="text-align: center; margin-bottom: 15px;">
-        <img src="https://raw.githubusercontent.com/internalcontrolengineering/Desarrollos/main/LogoCI-BC.png" 
-             alt="Logo Control Interno" 
-             id="logoControlInternoLogin"
-             style="max-width: 120px; height: auto;">
+  <!-- Login / Registro inicial -->
+  <div id="loginView" style="text-align:center">
+    <div style="text-align:center; margin-bottom:12px;">
+      <img src="https://raw.githubusercontent.com/internalcontrolengineering/Desarrollos/main/LogoCI-G.png" 
+           alt="Logo Control Interno" 
+           id="logoControlInternoLogin"
+           style="max-width:110px; height:auto;">
     </div>
     
     <h1>Scriptum</h1>
 
-    <!-- Logo CSW debajo (se mantiene original) -->
     <div id="logoContainer">
-       <img src="https://raw.githubusercontent.com/internalcontrolengineering/Desarrollos/main/Logo%20CSW.png" alt="Logo Scriptum" id="logo">
     </div>
 
-    <div style="max-width:420px;margin:0 auto">
-      <input id="pwInput" type="password" placeholder="Ingresa la contraseña" />
-      <div style="margin-top:8px"><button id="loginBtn" style="width:100%;">Entrar</button></div>
-      <p id="loginMsg" class="small" style="color:#f66"></p>
+    <!-- Formulario de Primer Registro -->
+    <div id="registerForm" class="auth-box hidden">
+      <p class="auth-subtitle">Primer acceso: registra tu contraseña maestra (se almacenará cifrada).</p>
+      <p class="pw-rules">Mínimo 8 caracteres, 1 mayúscula, 1 minúscula y 1 carácter especial.</p>
+      <input id="newPwInput" type="password" placeholder="Crea tu contraseña" autocomplete="new-password" />
+      <input id="confirmPwInput" type="password" placeholder="Confirma tu contraseña" autocomplete="new-password" />
+      <button id="registerBtn" style="width:100%;">Registrar contraseña y entrar</button>
+      <p id="registerMsg" class="small msg-error" style="margin:2px 0 0 0;"></p>
     </div>
-</div>
+
+    <!-- Formulario de Inicio de Sesión -->
+    <div id="loginForm" class="auth-box hidden">
+      <input id="pwInput" type="password" placeholder="Ingresa tu contraseña" autocomplete="current-password" />
+      <button id="loginBtn" style="width:100%;">Entrar</button>
+      <p id="loginMsg" class="small msg-error" style="margin:2px 0 0 0;"></p>
+    </div>
+  </div>
 
   <!-- Diario -->
-<div id="diaryView" class="hidden">
-    <!-- Logo de Control Interno arriba - DORADO EXCLUSIVO -->
-    <div style="text-align: center; margin-bottom: 15px;">
-        <img src="https://raw.githubusercontent.com/internalcontrolengineering/Desarrollos/main/LogoCI-BC.png" 
-             alt="Logo Control Interno" 
-             id="logoControlInternoApp"
-             style="max-width: 120px; height: auto;">
+  <div id="diaryView" class="hidden">
+    <div class="app-topbar">
+      <span id="appearanceIndicator" class="small">Modo Oscuro</span>
+      <button id="openSettingsBtn" type="button" class="gear-btn" title="Configuración">
+        <span class="gear-icon">⚙</span>
+        <span>Configuración</span>
+      </button>
+    </div>
+
+    <div style="text-align:center; margin-bottom:12px;">
+      <img src="https://raw.githubusercontent.com/internalcontrolengineering/Desarrollos/main/LogoCI-G.png" 
+           alt="Logo Control Interno" 
+           id="logoControlInternoApp"
+           style="max-width:110px; height:auto;">
     </div>
     
     <h1>Scriptum</h1>
 
-    <!-- Logo CSW debajo (se mantiene original) -->
     <div id="logoContainer">
-       <img src="https://raw.githubusercontent.com/internalcontrolengineering/Desarrollos/main/Logo%20CSW.png" alt="Logo Scriptum" id="logo">
+
     </div>
 
     <!-- Contenido de pestañas -->
@@ -701,8 +879,8 @@ footer{
       <div class="search-panel">
         <input id="searchInput" placeholder="Buscar por palabra..." style="flex:1" />
         <select id="categoryFilter"><option value="">Todas las categorías</option></select>
-        <button id="toggleAdvancedSearch">Búsqueda Avanzada</button>
-        <button id="clearFilters">Limpiar filtros</button>
+        <button id="toggleAdvancedSearch" type="button">Búsqueda Avanzada</button>
+        <button id="clearFilters" type="button" class="ghost-btn">Limpiar filtros</button>
       </div>
 
       <!-- Búsqueda avanzada -->
@@ -745,15 +923,15 @@ footer{
             <input type="date" id="dateToFilter" />
           </div>
         </div>
-        <button id="applyAdvancedFilters">Aplicar Filtros</button>
+        <button id="applyAdvancedFilters" type="button">Aplicar Filtros</button>
       </div>
 
       <div class="panel" style="margin-top:20px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px; flex-wrap:wrap;">
           <strong>Registros Pendientes</strong>
-          <div>
-            <button id="togglePendingBtn">Ocultar Pendientes</button>
-            <button id="toggleCompletedBtn">Ocultar Completos</button>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button id="togglePendingBtn" type="button" class="ghost-btn">Ocultar Pendientes</button>
+            <button id="toggleCompletedBtn" type="button" class="ghost-btn">Ocultar Completos</button>
           </div>
         </div>
         <div id="entries" class="entries"></div>
@@ -768,18 +946,12 @@ footer{
       </div>
 
       <div class="action-buttons">
-        <button id="selectBtn">Seleccionar</button>
-        <button id="cancelSelectBtn" class="hidden">Cancelar Selección</button>
-        <button id="shareWhatsBtn" class="hidden">WhatsApp</button>
-        <button id="shareEmailBtn" class="hidden">Email</button>
-        <button id="shareWordBtn" class="hidden">Word</button>
-        <button id="selectAllBtn" class="hidden">Seleccionar todo</button>
-      </div>
-
-      <div class="action-buttons">
-        <button id="exportJsonBtn" style="background:#1e40af;color:#fff;">Exportar JSON</button>
-        <button id="importJsonBtn" style="background:#1e40af;color:#fff;">Importar JSON</button>
-        <input type="file" id="importFileInput" accept=".json" class="hidden"/>
+        <button id="selectBtn" type="button" class="ghost-btn">Seleccionar</button>
+        <button id="cancelSelectBtn" type="button" class="ghost-btn hidden">Cancelar Selección</button>
+        <button id="shareWhatsBtn" type="button" class="hidden">WhatsApp</button>
+        <button id="shareEmailBtn" type="button" class="hidden">Email</button>
+        <button id="shareWordBtn" type="button" class="hidden">Word</button>
+        <button id="selectAllBtn" type="button" class="ghost-btn hidden">Seleccionar todo</button>
       </div>
     </div>
 
@@ -824,7 +996,7 @@ footer{
     <!-- Pestaña de búsqueda avanzada -->
     <div class="tab-content" id="search-tab">
       <div class="panel">
-        <h3>Búsqueda Avanzada</h3>
+        <h3 style="margin-top:0">Búsqueda Avanzada</h3>
         <div class="advanced-search-fields">
           <div class="form-group">
             <label>Texto</label>
@@ -885,26 +1057,92 @@ footer{
             </select>
           </div>
         </div>
-        <div style="display: flex; gap: 10px; margin-top: 10px;">
-          <button id="performAdvancedSearch">Buscar</button>
-          <button id="clearAdvancedFilters" style="background: #6b7280;">Limpiar Filtros</button>
+        <div style="display:flex; gap:10px; margin-top:10px;">
+          <button id="performAdvancedSearch" type="button">Buscar</button>
+          <button id="clearAdvancedFilters" type="button" class="ghost-btn">Limpiar Filtros</button>
         </div>
       </div>
       
       <div id="advancedSearchResults" class="entries"></div>
     </div>
 
-    <div style="display:flex; justify-content:space-between; margin-top:20px; align-items:flex-end;">
-      <div>
-        <select id="themeSelect">
-          <option value="black">Negro</option>
-          <option value="gray">Gris</option>
-          <option value="green">Verde</option>
-          <option value="purple">Morado</option>
-          <option value="turquoise">Turquesa</option>
-        </select>
+    <div class="footer-bar">
+      <span class="small">Doble clic en una nota para editarla</span>
+      <button id="logoutBtn" type="button" class="danger">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE CONFIGURACIÓN (ENGRANE) -->
+<div id="settingsModal" class="settings-backdrop" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+  <div class="settings-modal">
+    <div class="settings-header">
+      <h2 id="settingsTitle">⚙ Configuración</h2>
+      <button id="closeSettingsBtn" type="button" class="close-modal-btn" title="Cerrar">✕</button>
+    </div>
+
+    <!-- 1. Cambiar contraseña -->
+    <div class="settings-section">
+      <p class="settings-section-title">Cambiar contraseña</p>
+      <p class="small" style="margin:0;">Mínimo 8 caracteres, 1 mayúscula, 1 minúscula y 1 carácter especial.</p>
+      <div class="change-pw-grid">
+        <input id="currentPwInput" type="password" placeholder="Contraseña actual" autocomplete="current-password" />
+        <input id="updatedPwInput" type="password" placeholder="Nueva contraseña" autocomplete="new-password" />
+        <input id="confirmUpdatedPwInput" type="password" placeholder="Confirmar nueva contraseña" autocomplete="new-password" />
       </div>
-      <button id="logoutBtn" class="danger">Cerrar sesión</button>
+      <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+        <button id="saveNewPwBtn" type="button">Actualizar contraseña</button>
+        <button id="clearChangePwBtn" type="button" class="ghost-btn">Limpiar</button>
+      </div>
+      <p id="changePwMsg" class="small" style="margin:8px 0 0 0;"></p>
+    </div>
+
+    <!-- 2. Modos -->
+    <div class="settings-section">
+      <p class="settings-section-title">Modos</p>
+      <p class="small" style="margin:0;">Automático cambia entre claro (06:00–18:59) y oscuro (noche) según la hora.</p>
+      <div class="mode-options">
+        <button type="button" class="mode-chip" data-mode="light">Claro</button>
+        <button type="button" class="mode-chip" data-mode="dark">Oscuro</button>
+        <button type="button" class="mode-chip" data-mode="auto">Automático</button>
+      </div>
+    </div>
+
+    <!-- 3. Color de la app -->
+    <div class="settings-section">
+      <p class="settings-section-title">Color de la app</p>
+      <p class="small" style="margin:0;">Elige el color de acento principal.</p>
+      <div class="color-swatches">
+        <button type="button" class="color-swatch" data-color="blue">
+          <span class="swatch-dot" style="background:#0a84ff;"></span>Azul
+        </button>
+        <button type="button" class="color-swatch" data-color="indigo">
+          <span class="swatch-dot" style="background:#5e5ce6;"></span>Índigo
+        </button>
+        <button type="button" class="color-swatch" data-color="teal">
+          <span class="swatch-dot" style="background:#5ac8fa;"></span>Celeste
+        </button>
+        <button type="button" class="color-swatch" data-color="green">
+          <span class="swatch-dot" style="background:#30d158;"></span>Verde
+        </button>
+        <button type="button" class="color-swatch" data-color="orange">
+          <span class="swatch-dot" style="background:#ff9f0a;"></span>Ámbar
+        </button>
+        <button type="button" class="color-swatch" data-color="pink">
+          <span class="swatch-dot" style="background:#ff375f;"></span>Rosa
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. Exportar e importar JSON -->
+    <div class="settings-section">
+      <p class="settings-section-title">Exportar e importar JSON</p>
+      <p class="small" style="margin:0;">Respalda tus notas en JSON o importa un archivo existente.</p>
+      <div class="action-buttons" style="margin-top:10px;">
+        <button id="exportJsonBtn" type="button">Exportar JSON</button>
+        <button id="importJsonBtn" type="button" class="ghost-btn">Importar JSON</button>
+        <input type="file" id="importFileInput" accept=".json" class="hidden"/>
+      </div>
     </div>
   </div>
 </div>
@@ -928,16 +1166,16 @@ footer{
       <label for="editFavorite">Marcar como favorita</label>
     </div>
     <div style="margin-top:10px">
-      <button id="saveEditBtn">Guardar</button>
-      <button id="cancelEditBtn">Cancelar</button>
-      <button id="deleteEditBtn" class="danger">Eliminar</button>
+      <button id="saveEditBtn" type="button">Guardar</button>
+      <button id="cancelEditBtn" type="button" class="ghost-btn">Cancelar</button>
+      <button id="deleteEditBtn" type="button" class="danger">Eliminar</button>
     </div>
   </div>
 </div>
 
 <script>
 /* ============================
-   FULLSCREEN API (botón arriba)
+   FULLSCREEN API
    ============================ */
 (function initFullscreen(){
   const btn = document.getElementById('fullscreenBtn');
@@ -948,7 +1186,6 @@ footer{
   const canEnter = !!(docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen);
   const canExit  = !!(document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen);
 
-  // Si el navegador no soporta fullscreen, ocultar el botón.
   if (!canEnter || !canExit) {
     btn.style.display = 'none';
     return;
@@ -961,16 +1198,16 @@ footer{
   async function enterFullscreen(){
     try{
       if (docEl.requestFullscreen) await docEl.requestFullscreen();
-      else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
-      else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
+      else if (docEl.webkitRequestFullscreen) await docEl.webkitRequestFullscreen();
+      else if (docEl.msRequestFullscreen) await docEl.msRequestFullscreen();
     }catch(e){}
   }
 
   async function exitFullscreen(){
     try{
       if (document.exitFullscreen) await document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-      else if (document.msExitFullscreen) document.msExitFullscreen();
+      else if (document.webkitExitFullscreen) await document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) await document.msExitFullscreen();
     }catch(e){}
   }
 
@@ -995,35 +1232,292 @@ footer{
 })();
 
 // Constantes y variables globales
-const LS_ENTRIES='blackNote_entries';
-const passwordCorrecta = "ControlInterno2026"; 
-let SESSION={password:null, unlocked:false};
-let selecting=false;
-let selectedEntries=[];
-let pendingHidden=false;
-let completedHidden=false;
+const LS_ENTRIES = 'blackNote_entries';
+const LS_AUTH = 'scriptum_auth_credentials';
+const LS_SESSION = 'scriptum_session';
+const LS_PREFS = 'scriptum_ui_preferences';
 
-// Guardar sesión en localStorage
-function saveSession() {
-  localStorage.setItem('scriptum_session', JSON.stringify(SESSION));
+let SESSION = { unlocked: false };
+let UI_PREFS = { mode: 'dark', color: 'blue' };
+let selecting = false;
+let selectedEntries = [];
+let pendingHidden = false;
+let completedHidden = false;
+
+/* ============================
+   MODOS Y COLOR DE LA APP
+   ============================ */
+function resolveDayNightMode() {
+  const hour = new Date().getHours();
+  return (hour >= 6 && hour < 19) ? 'light' : 'dark';
 }
 
-// Cargar sesión desde localStorage
+function applyAppearance() {
+  const effectiveMode = UI_PREFS.mode === 'auto' ? resolveDayNightMode() : UI_PREFS.mode;
+  document.body.classList.remove('mode-light', 'mode-dark', 'color-blue', 'color-indigo', 'color-teal', 'color-green', 'color-orange', 'color-pink');
+  document.body.classList.add(`mode-${effectiveMode}`, `color-${UI_PREFS.color}`);
+
+  document.querySelectorAll('.mode-chip').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === UI_PREFS.mode);
+  });
+
+  document.querySelectorAll('.color-swatch').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.color === UI_PREFS.color);
+  });
+
+  const indicator = document.getElementById('appearanceIndicator');
+  if (indicator) {
+    const modeLabel = UI_PREFS.mode === 'auto'
+      ? `Automático (${effectiveMode === 'light' ? 'Día' : 'Noche'})`
+      : (UI_PREFS.mode === 'light' ? 'Modo Claro' : 'Modo Oscuro');
+    indicator.textContent = modeLabel;
+  }
+}
+
+function loadPreferences() {
+  const saved = localStorage.getItem(LS_PREFS);
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      UI_PREFS.mode = ['light', 'dark', 'auto'].includes(parsed.mode) ? parsed.mode : 'dark';
+      UI_PREFS.color = ['blue', 'indigo', 'teal', 'green', 'orange', 'pink'].includes(parsed.color) ? parsed.color : 'blue';
+    } catch (e) {}
+  }
+  applyAppearance();
+}
+
+function savePreferences() {
+  localStorage.setItem(LS_PREFS, JSON.stringify(UI_PREFS));
+}
+
+document.querySelectorAll('.mode-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    UI_PREFS.mode = btn.dataset.mode;
+    savePreferences();
+    applyAppearance();
+  });
+});
+
+document.querySelectorAll('.color-swatch').forEach(btn => {
+  btn.addEventListener('click', () => {
+    UI_PREFS.color = btn.dataset.color;
+    savePreferences();
+    applyAppearance();
+  });
+});
+
+setInterval(() => {
+  if (UI_PREFS.mode === 'auto') {
+    applyAppearance();
+  }
+}, 60000);
+
+loadPreferences();
+
+/* ============================
+   MODAL DE CONFIGURACIÓN
+   ============================ */
+const settingsModal = document.getElementById('settingsModal');
+
+document.getElementById('openSettingsBtn').addEventListener('click', () => {
+  settingsModal.classList.add('open');
+});
+
+document.getElementById('closeSettingsBtn').addEventListener('click', () => {
+  settingsModal.classList.remove('open');
+});
+
+settingsModal.addEventListener('click', (e) => {
+  if (e.target === settingsModal) {
+    settingsModal.classList.remove('open');
+  }
+});
+
+/* ============================
+   VALIDACIÓN DE CONTRASEÑA Y CIFRADO (PBKDF2 + SHA-256)
+   ============================ */
+function validatePasswordPolicy(pw) {
+  if (typeof pw !== 'string' || pw.length < 8) {
+    return 'La contraseña debe tener al menos 8 caracteres.';
+  }
+  if (!/[A-Z]/.test(pw)) {
+    return 'La contraseña debe incluir al menos una letra mayúscula.';
+  }
+  if (!/[a-z]/.test(pw)) {
+    return 'La contraseña debe incluir al menos una letra minúscula.';
+  }
+  if (!/[^A-Za-z0-9]/.test(pw)) {
+    return 'La contraseña debe incluir al menos un carácter especial.';
+  }
+  return null;
+}
+
+function bufferToHex(buffer) {
+  return Array.from(new Uint8Array(buffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function hexToBuffer(hex) {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < hex.length; i += 2) {
+    bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
+  }
+  return bytes;
+}
+
+function generateSalt(length = 16) {
+  const salt = new Uint8Array(length);
+  crypto.getRandomValues(salt);
+  return bufferToHex(salt);
+}
+
+async function derivePasswordHash(password, saltHex) {
+  const encoder = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(password),
+    { name: 'PBKDF2' },
+    false,
+    ['deriveBits']
+  );
+
+  const derivedBits = await crypto.subtle.deriveBits(
+    {
+      name: 'PBKDF2',
+      salt: hexToBuffer(saltHex),
+      iterations: 150000,
+      hash: 'SHA-256'
+    },
+    keyMaterial,
+    256
+  );
+
+  return bufferToHex(derivedBits);
+}
+
+function getStoredAuth() {
+  const raw = localStorage.getItem(LS_AUTH);
+  return raw ? JSON.parse(raw) : null;
+}
+
+function showLoginScreen() {
+  document.getElementById('diaryView').classList.add('hidden');
+  document.getElementById('loginView').classList.remove('hidden');
+
+  const auth = getStoredAuth();
+  const registerForm = document.getElementById('registerForm');
+  const loginForm = document.getElementById('loginForm');
+
+  if (!auth || !auth.hash || !auth.salt) {
+    registerForm.classList.remove('hidden');
+    loginForm.classList.add('hidden');
+  } else {
+    registerForm.classList.add('hidden');
+    loginForm.classList.remove('hidden');
+  }
+}
+
+function unlockApp() {
+  SESSION.unlocked = true;
+  saveSession();
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('diaryView').classList.remove('hidden');
+  refreshEntriesUI();
+  updateStats();
+}
+
+function saveSession() {
+  localStorage.setItem(LS_SESSION, JSON.stringify({ unlocked: SESSION.unlocked }));
+}
+
 function loadSession() {
-  const data = localStorage.getItem('scriptum_session');
-  if (data) {
-    SESSION = JSON.parse(data);
-    if (SESSION.unlocked) {
+  const auth = getStoredAuth();
+  const data = localStorage.getItem(LS_SESSION);
+  if (data && auth) {
+    const parsed = JSON.parse(data);
+    if (parsed.unlocked) {
+      SESSION.unlocked = true;
       document.getElementById('loginView').classList.add('hidden');
       document.getElementById('diaryView').classList.remove('hidden');
       refreshEntriesUI();
       updateStats();
+      return;
     }
   }
+  showLoginScreen();
 }
 
-// Ejecutar al cargar la página
 loadSession();
+
+/* ============================
+   CAMBIAR CONTRASEÑA DESDE CONFIGURACIÓN
+   ============================ */
+function resetChangePwForm() {
+  document.getElementById('currentPwInput').value = '';
+  document.getElementById('updatedPwInput').value = '';
+  document.getElementById('confirmUpdatedPwInput').value = '';
+  const msg = document.getElementById('changePwMsg');
+  msg.textContent = '';
+  msg.className = 'small';
+}
+
+document.getElementById('clearChangePwBtn').addEventListener('click', resetChangePwForm);
+
+document.getElementById('saveNewPwBtn').addEventListener('click', async () => {
+  const currentPw = document.getElementById('currentPwInput').value;
+  const newPw = document.getElementById('updatedPwInput').value;
+  const confirmPw = document.getElementById('confirmUpdatedPwInput').value;
+  const msgEl = document.getElementById('changePwMsg');
+  msgEl.className = 'small msg-error';
+
+  const auth = getStoredAuth();
+  if (!auth || !auth.hash || !auth.salt) {
+    msgEl.textContent = 'No se encontró una contraseña registrada previamente.';
+    return;
+  }
+
+  if (!currentPw) {
+    msgEl.textContent = 'Ingresa tu contraseña actual.';
+    return;
+  }
+
+  const policyError = validatePasswordPolicy(newPw);
+  if (policyError) {
+    msgEl.textContent = policyError;
+    return;
+  }
+
+  if (newPw !== confirmPw) {
+    msgEl.textContent = 'La nueva contraseña y su confirmación no coinciden.';
+    return;
+  }
+
+  try {
+    const currentHash = await derivePasswordHash(currentPw, auth.salt);
+    if (currentHash !== auth.hash) {
+      msgEl.textContent = 'La contraseña actual es incorrecta.';
+      return;
+    }
+
+    const nextSalt = generateSalt();
+    const nextHash = await derivePasswordHash(newPw, nextSalt);
+
+    localStorage.setItem(LS_AUTH, JSON.stringify({
+      salt: nextSalt,
+      hash: nextHash,
+      algorithm: 'PBKDF2-SHA256',
+      createdAt: auth.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }));
+
+    resetChangePwForm();
+    msgEl.textContent = 'Contraseña actualizada y cifrada correctamente.';
+    msgEl.className = 'small msg-success';
+  } catch (err) {
+    msgEl.textContent = 'Error al actualizar la contraseña.';
+  }
+});
 
 // Funciones de utilidad
 function getStoredEntries(){
@@ -1043,19 +1537,68 @@ function nowStr(){
   return new Date().toLocaleString();
 }
 
+/* REGISTRO INICIAL DE CONTRASEÑA */
+document.getElementById('registerBtn').addEventListener('click', async () => {
+  const newPw = document.getElementById('newPwInput').value;
+  const confirmPw = document.getElementById('confirmPwInput').value;
+  const msgEl = document.getElementById('registerMsg');
+  msgEl.textContent = '';
+
+  const policyError = validatePasswordPolicy(newPw);
+  if (policyError) {
+    msgEl.textContent = policyError;
+    return;
+  }
+
+  if (newPw !== confirmPw) {
+    msgEl.textContent = 'Las contraseñas no coinciden.';
+    return;
+  }
+
+  try {
+    const salt = generateSalt();
+    const hash = await derivePasswordHash(newPw, salt);
+    localStorage.setItem(LS_AUTH, JSON.stringify({
+      salt,
+      hash,
+      algorithm: 'PBKDF2-SHA256',
+      createdAt: new Date().toISOString()
+    }));
+
+    document.getElementById('newPwInput').value = '';
+    document.getElementById('confirmPwInput').value = '';
+    unlockApp();
+  } catch (err) {
+    msgEl.textContent = 'Error al cifrar la contraseña en este navegador.';
+  }
+});
+
+document.getElementById('confirmPwInput').addEventListener('keypress', e => {
+  if (e.key === 'Enter') document.getElementById('registerBtn').click();
+});
+
 /* LOGIN */
-document.getElementById('loginBtn').addEventListener('click', ()=>{
-  const pw = document.getElementById('pwInput').value.trim();
-  if(pw === passwordCorrecta){
-    SESSION.password = pw;
-    SESSION.unlocked = true;
-    saveSession();
-    document.getElementById('loginView').classList.add('hidden');
-    document.getElementById('diaryView').classList.remove('hidden');
-    refreshEntriesUI();
-    updateStats();
-  } else {
-    document.getElementById('loginMsg').textContent = 'Contraseña incorrecta';
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const pw = document.getElementById('pwInput').value;
+  const msgEl = document.getElementById('loginMsg');
+  msgEl.textContent = '';
+
+  const auth = getStoredAuth();
+  if (!auth) {
+    showLoginScreen();
+    return;
+  }
+
+  try {
+    const candidateHash = await derivePasswordHash(pw, auth.salt);
+    if (candidateHash === auth.hash) {
+      document.getElementById('pwInput').value = '';
+      unlockApp();
+    } else {
+      msgEl.textContent = 'Contraseña incorrecta';
+    }
+  } catch (err) {
+    msgEl.textContent = 'Error al verificar la contraseña.';
   }
 });
 
@@ -1065,16 +1608,13 @@ document.getElementById('pwInput').addEventListener('keypress', e => {
 
 /* LOGOUT */
 document.getElementById('logoutBtn').addEventListener('click',()=>{
-  SESSION={password:null, unlocked:false};
+  SESSION = { unlocked: false };
   saveSession();
-  document.getElementById('diaryView').classList.add('hidden');
-  document.getElementById('loginView').classList.remove('hidden');
-  document.getElementById('pwInput').value='';
-});
-
-/* THEMES */
-document.getElementById('themeSelect').addEventListener('change',e=>{
-  document.body.className='theme-'+e.target.value;
+  resetChangePwForm();
+  settingsModal.classList.remove('open');
+  document.getElementById('pwInput').value = '';
+  document.getElementById('loginMsg').textContent = '';
+  showLoginScreen();
 });
 
 /* ADD NOTE */
@@ -1086,15 +1626,12 @@ document.getElementById('addBtn').addEventListener('click',()=>{
   if(!text) return alert('Agrega una nota');
   if(!category) return alert('Selecciona o escribe una categoría');
   
-  // Obtener etiquetas
   const tagsInput = document.getElementById('noteTags').value.trim();
   const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
   
-  // Obtener recordatorio
   const reminderInput = document.getElementById('noteReminder').value;
   const reminder = reminderInput ? new Date(reminderInput).getTime() : null;
   
-  // Obtener favorito
   const favorite = document.getElementById('noteFavorite').checked;
   
   const entries=getStoredEntries();
@@ -1131,7 +1668,6 @@ function openEditModal(id,text,category,tags,reminder,favorite){
   currentEditId=id;
   editTextArea.value=text;
   
-  // Cargar categorías existentes
   const entries=getStoredEntries();
   const cats=[...new Set(entries.map(e=>e.category).filter(Boolean))];
   editCategorySelect.innerHTML='';
@@ -1145,10 +1681,8 @@ function openEditModal(id,text,category,tags,reminder,favorite){
   editCategorySelect.appendChild(customOpt);
   editCategorySelect.value=category;
   
-  // Cargar etiquetas
   document.getElementById('editTags').value = tags ? tags.join(', ') : '';
   
-  // Cargar recordatorio
   if (reminder) {
     const reminderDate = new Date(reminder);
     document.getElementById('editReminder').value = reminderDate.toISOString().slice(0, 16);
@@ -1156,7 +1690,6 @@ function openEditModal(id,text,category,tags,reminder,favorite){
     document.getElementById('editReminder').value = '';
   }
   
-  // Cargar favorito
   document.getElementById('editFavorite').checked = favorite || false;
   
   editModal.style.display='flex';
@@ -1189,18 +1722,14 @@ document.getElementById('saveEditBtn').addEventListener('click',()=>{
     entries[idx].text=editTextArea.value;
     entries[idx].category=editCategorySelect.value;
     
-    // Guardar etiquetas
     const tagsInput = document.getElementById('editTags').value.trim();
     entries[idx].tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
     
-    // Guardar recordatorio
     const reminderInput = document.getElementById('editReminder').value;
     entries[idx].reminder = reminderInput ? new Date(reminderInput).getTime() : null;
     
-    // Guardar favorito
     entries[idx].favorite = document.getElementById('editFavorite').checked;
     
-    // Reiniciar notificación de recordatorio si se cambia la fecha
     if (reminderInput) {
       entries[idx].reminderNotified = false;
     }
@@ -1252,33 +1781,27 @@ function refreshEntriesUI(){
     existingCat.appendChild(opt2);
   });
 
-  // Filtrar según búsqueda y categoría
   let filtered = entries.filter(e=>{
     const matchesSearch=e.text.toLowerCase().includes(search) || (e.category||'').toLowerCase().includes(search);
     const matchesCategory=!categoryFilter || e.category===categoryFilter;
     return matchesSearch && matchesCategory;
   });
 
-  // Separar completados y no completados
   const activeEntries = filtered.filter(e=>e.status!=='Completo');
   const completedEntries = filtered.filter(e=>e.status==='Completo');
 
-  // Función de orden por prioridad
   const priorityOrder = { 'Alta':1, 'Media':2, 'Baja':3, '':4 };
   activeEntries.sort((a,b)=>priorityOrder[a.priority||''] - priorityOrder[b.priority||'']);
   completedEntries.sort((a,b)=>priorityOrder[a.priority||''] - priorityOrder[b.priority||'']);
 
-  // Asignar números correlativos por sección
   activeEntries.forEach((e, idx)=>{ e.numero = idx+1; });
   completedEntries.forEach((e, idx)=>{ e.numero = idx+1; });
 
-  // Función para renderizar entradas
   function renderEntries(list, containerTarget){
     list.forEach(e=>{
       const div=document.createElement('div'); 
       div.className='entry fade-in';
       
-      // Añadir clases según prioridad y estado
       if (e.priority === 'Alta') div.classList.add('priority-high');
       else if (e.priority === 'Media') div.classList.add('priority-medium');
       else if (e.priority === 'Baja') div.classList.add('priority-low');
@@ -1288,7 +1811,6 @@ function refreshEntriesUI(){
       else if (e.status === 'En pausa') div.classList.add('status-paused');
       else if (e.status === 'Con incidencia') div.classList.add('status-issue');
       
-      // Verificar si el recordatorio está activo
       const now = new Date().getTime();
       if (e.reminder && e.reminder <= now && !e.reminderNotified) {
         div.classList.add('reminder-active');
@@ -1297,7 +1819,6 @@ function refreshEntriesUI(){
       const checked=selectedEntries.includes(e.id)?'checked':'';
       const displayClass = selecting ? '' : 'hidden';
       
-      // Formatear fecha del recordatorio si existe
       let reminderBadge = '';
       if (e.reminder) {
         const reminderDate = new Date(e.reminder);
@@ -1305,11 +1826,10 @@ function refreshEntriesUI(){
         if (reminderDate > now) {
           reminderBadge = `<span class="reminder-badge">Recordatorio: ${reminderDate.toLocaleString()}</span>`;
         } else if (!e.reminderNotified) {
-          reminderBadge = `<span class="reminder-badge" style="background:#f44336;color:white;">¡Recordatorio activo!</span>`;
+          reminderBadge = `<span class="reminder-badge" style="background:#ff453a;color:white;">¡Recordatorio activo!</span>`;
         }
       }
       
-      // Mostrar etiquetas si existen
       let tagsHTML = '';
       if (e.tags && e.tags.length > 0) {
         tagsHTML = `<div class="tags-container">`;
@@ -1347,7 +1867,6 @@ function refreshEntriesUI(){
           </select>
         </div>`;
       
-      // Agregar evento de doble clic para abrir modal de edición
       div.addEventListener('dblclick', () => {
         openEditModal(e.id, e.text, e.category, e.tags, e.reminder, e.favorite);
       });
@@ -1359,7 +1878,6 @@ function refreshEntriesUI(){
   renderEntries(activeEntries, container);
   renderEntries(completedEntries, completedContainer);
 
-  // Checkbox events
   document.querySelectorAll('#entries input[type=checkbox], #completedEntries input[type=checkbox]').forEach(cb=>{
     cb.addEventListener('change', e=>{
       const id=e.target.getAttribute('data-id');
@@ -1372,7 +1890,6 @@ function refreshEntriesUI(){
     });
   });
 
-  // Ocultar secciones según corresponda
   if(pendingHidden) container.classList.add('hidden');
   else container.classList.remove('hidden');
   
@@ -1397,12 +1914,10 @@ document.getElementById('exportJsonBtn').addEventListener('click', async () => {
     const data = JSON.stringify(getStoredEntries(), null, 2);
     const blob = new Blob([data], { type: 'application/json' });
     
-    // Crear nombre de archivo con fecha actual
     const now = new Date();
     const formattedDate = now.toISOString().split('T')[0];
     const defaultFilename = `Scriptum_respaldo_(${formattedDate}).json`;
 
-    // Método moderno: usar File System Access API si está disponible
     if ('showSaveFilePicker' in window) {
       try {
         const options = {
@@ -1423,28 +1938,19 @@ document.getElementById('exportJsonBtn').addEventListener('click', async () => {
         alert('Datos exportados correctamente');
         return;
       } catch (err) {
-        // Si el usuario cancela el diálogo, no hacer nada
-        if (err.name === 'AbortError') {
-          console.log('Exportación cancelada por el usuario');
-          return;
-        }
-        // Si hay otro error, continuar con método tradicional
-        console.warn('Error con File System API, usando método tradicional:', err);
+        if (err.name === 'AbortError') return;
       }
     }
 
-    // Método tradicional para navegadores que no soportan File System Access API
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = defaultFilename;
     
-    // Método compatible para todos los navegadores
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     
-    // Limpiar después de un tiempo
     setTimeout(() => {
       URL.revokeObjectURL(url);
     }, 100);
@@ -1471,12 +1977,9 @@ document.getElementById('importFileInput').addEventListener('change', function(e
       const importedEntries = JSON.parse(event.target.result);
       if (Array.isArray(importedEntries)) {
         const currentEntries = getStoredEntries();
-        
-        // Evitar duplicados por ID
         const currentIds = currentEntries.map(e => e.id);
         const uniqueImportedEntries = importedEntries.filter(e => !currentIds.includes(e.id));
         
-        // Si hay duplicados, informar al usuario
         if (uniqueImportedEntries.length < importedEntries.length) {
           const duplicatesCount = importedEntries.length - uniqueImportedEntries.length;
           alert(`${duplicatesCount} notas duplicadas fueron omitidas.`);
@@ -1495,12 +1998,10 @@ document.getElementById('importFileInput').addEventListener('change', function(e
     }
   };
   reader.readAsText(file);
-  e.target.value = ''; // Reset input
+  e.target.value = '';
 });
 
-/* NUEVAS FUNCIONALIDADES */
-
-// Actualizar estadísticas
+/* ESTADÍSTICAS */
 function updateStats() {
   const entries = getStoredEntries();
   const total = entries.length;
@@ -1510,13 +2011,11 @@ function updateStats() {
   const pending = entries.filter(e => e.status !== 'Completo').length;
   const withReminder = entries.filter(e => e.reminder).length;
   
-  // Contar recordatorios activos
   const now = new Date().getTime();
   const activeReminders = entries.filter(e => 
     e.reminder && e.reminder <= now && !e.reminderNotified && e.status !== 'Completo'
   ).length;
   
-  // Contar categorías únicas
   const categoriesCount = [...new Set(entries.map(e => e.category).filter(Boolean))].length;
   
   document.getElementById('totalNotes').textContent = total;
@@ -1529,7 +2028,6 @@ function updateStats() {
   document.getElementById('categoriesCount').textContent = categoriesCount;
 }
 
-// Alternar favorito
 function toggleFavorite(id) {
   const entries = getStoredEntries();
   const entry = entries.find(e => e.id === id);
@@ -1541,7 +2039,6 @@ function toggleFavorite(id) {
   }
 }
 
-// Eliminar etiqueta
 function removeTag(id, tag) {
   const entries = getStoredEntries();
   const entry = entries.find(e => e.id === id);
@@ -1552,31 +2049,20 @@ function removeTag(id, tag) {
   }
 }
 
-// Navegación por pestañas
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
-    // Remover clase activa de todas las pestañas y contenidos
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     
-    // Activar pestaña clickeada
     tab.classList.add('active');
     const tabId = tab.getAttribute('data-tab');
     document.getElementById(`${tabId}-tab`).classList.add('active');
     
-    // Actualizar estadísticas si se cambia a esa pestaña
-    if (tabId === 'stats') {
-      updateStats();
-    }
-    
-    // Actualizar opciones de categoría en búsqueda avanzada
-    if (tabId === 'search') {
-      updateAdvancedSearchCategories();
-    }
+    if (tabId === 'stats') updateStats();
+    if (tabId === 'search') updateAdvancedSearchCategories();
   });
 });
 
-// Actualizar categorías en búsqueda avanzada
 function updateAdvancedSearchCategories() {
   const entries = getStoredEntries();
   const cats = [...new Set(entries.map(e => e.category).filter(Boolean))];
@@ -1591,13 +2077,11 @@ function updateAdvancedSearchCategories() {
   });
 }
 
-// Búsqueda avanzada
 document.getElementById('toggleAdvancedSearch').addEventListener('click', () => {
   const advancedSearch = document.getElementById('advancedSearch');
   advancedSearch.classList.toggle('hidden');
 });
 
-// Aplicar filtros avanzados
 document.getElementById('applyAdvancedFilters').addEventListener('click', () => {
   const statusFilter = document.getElementById('statusFilter').value;
   const priorityFilter = document.getElementById('priorityFilter').value;
@@ -1607,34 +2091,21 @@ document.getElementById('applyAdvancedFilters').addEventListener('click', () => 
   
   let entries = getStoredEntries();
   
-  // Aplicar filtros
-  if (statusFilter) {
-    entries = entries.filter(e => e.status === statusFilter);
-  }
-  
-  if (priorityFilter) {
-    entries = entries.filter(e => e.priority === priorityFilter);
-  }
-  
-  if (favoriteFilter === 'favorites') {
-    entries = entries.filter(e => e.favorite);
-  }
-  
+  if (statusFilter) entries = entries.filter(e => e.status === statusFilter);
+  if (priorityFilter) entries = entries.filter(e => e.priority === priorityFilter);
+  if (favoriteFilter === 'favorites') entries = entries.filter(e => e.favorite);
   if (dateFromFilter) {
     const fromDate = new Date(dateFromFilter);
     entries = entries.filter(e => new Date(e.date) >= fromDate);
   }
-  
   if (dateToFilter) {
     const toDate = new Date(dateToFilter);
     entries = entries.filter(e => new Date(e.date) <= toDate);
   }
   
-  // Mostrar resultados filtrados
   displayFilteredResults(entries);
 });
 
-// Mostrar resultados filtrados
 function displayFilteredResults(entries) {
   const container = document.getElementById('entries');
   const completedContainer = document.getElementById('completedEntries');
@@ -1642,20 +2113,16 @@ function displayFilteredResults(entries) {
   container.innerHTML = '';
   completedContainer.innerHTML = '';
   
-  // Separar completados y no completados
   const activeEntries = entries.filter(e => e.status !== 'Completo');
   const completedEntries = entries.filter(e => e.status === 'Completo');
   
-  // Función de orden por prioridad
   const priorityOrder = { 'Alta':1, 'Media':2, 'Baja':3, '':4 };
   activeEntries.sort((a,b) => priorityOrder[a.priority||''] - priorityOrder[b.priority||'']);
   completedEntries.sort((a,b) => priorityOrder[a.priority||''] - priorityOrder[b.priority||'']);
   
-  // Asignar números correlativos por sección
   activeEntries.forEach((e, idx) => { e.numero = idx+1; });
   completedEntries.forEach((e, idx) => { e.numero = idx+1; });
   
-  // Función para renderizar entradas
   function renderEntries(list, containerTarget){
     if (list.length === 0) {
       containerTarget.innerHTML = '<p class="small">No se encontraron notas que coincidan con los filtros.</p>';
@@ -1666,7 +2133,6 @@ function displayFilteredResults(entries) {
       const div = document.createElement('div'); 
       div.className = 'entry fade-in';
       
-      // Añadir clases según prioridad y estado
       if (e.priority === 'Alta') div.classList.add('priority-high');
       else if (e.priority === 'Media') div.classList.add('priority-medium');
       else if (e.priority === 'Baja') div.classList.add('priority-low');
@@ -1676,13 +2142,11 @@ function displayFilteredResults(entries) {
       else if (e.status === 'En pausa') div.classList.add('status-paused');
       else if (e.status === 'Con incidencia') div.classList.add('status-issue');
       
-      // Verificar si el recordatorio está activo
       const now = new Date().getTime();
       if (e.reminder && e.reminder <= now && !e.reminderNotified) {
         div.classList.add('reminder-active');
       }
       
-      // Formatear fecha del recordatorio si existe
       let reminderBadge = '';
       if (e.reminder) {
         const reminderDate = new Date(e.reminder);
@@ -1690,11 +2154,10 @@ function displayFilteredResults(entries) {
         if (reminderDate > now) {
           reminderBadge = `<span class="reminder-badge">Recordatorio: ${reminderDate.toLocaleString()}</span>`;
         } else if (!e.reminderNotified) {
-          reminderBadge = `<span class="reminder-badge" style="background:#f44336;color:white;">¡Recordatorio activo!</span>`;
+          reminderBadge = `<span class="reminder-badge" style="background:#ff453a;color:white;">¡Recordatorio activo!</span>`;
         }
       }
       
-      // Mostrar etiquetas si existen
       let tagsHTML = '';
       if (e.tags && e.tags.length > 0) {
         tagsHTML = `<div class="tags-container">`;
@@ -1731,7 +2194,6 @@ function displayFilteredResults(entries) {
           </select>
         </div>`;
       
-      // Agregar evento de doble clic para abrir modal de edición
       div.addEventListener('dblclick', () => {
         openEditModal(e.id, e.text, e.category, e.tags, e.reminder, e.favorite);
       });
@@ -1743,7 +2205,6 @@ function displayFilteredResults(entries) {
   renderEntries(activeEntries, container);
   renderEntries(completedEntries, completedContainer);
   
-  // Ocultar secciones según corresponda
   if(pendingHidden) container.classList.add('hidden');
   else container.classList.remove('hidden');
   
@@ -1751,7 +2212,6 @@ function displayFilteredResults(entries) {
   else completedContainer.classList.remove('hidden');
 }
 
-// Búsqueda avanzada en pestaña de búsqueda
 document.getElementById('performAdvancedSearch').addEventListener('click', () => {
   const searchText = document.getElementById('advancedSearchText').value.toLowerCase();
   const category = document.getElementById('advancedSearchCategory').value;
@@ -1765,26 +2225,15 @@ document.getElementById('performAdvancedSearch').addEventListener('click', () =>
   
   let entries = getStoredEntries();
   
-  // Aplicar filtros
   if (searchText) {
     entries = entries.filter(e => 
       e.text.toLowerCase().includes(searchText) || 
       (e.category || '').toLowerCase().includes(searchText)
     );
   }
-  
-  if (category) {
-    entries = entries.filter(e => e.category === category);
-  }
-  
-  if (status) {
-    entries = entries.filter(e => e.status === status);
-  }
-  
-  if (priority) {
-    entries = entries.filter(e => e.priority === priority);
-  }
-  
+  if (category) entries = entries.filter(e => e.category === category);
+  if (status) entries = entries.filter(e => e.status === status);
+  if (priority) entries = entries.filter(e => e.priority === priority);
   if (tagsInput) {
     const searchTags = tagsInput.split(',').map(tag => tag.trim());
     entries = entries.filter(e => {
@@ -1792,34 +2241,22 @@ document.getElementById('performAdvancedSearch').addEventListener('click', () =>
       return searchTags.some(tag => e.tags.some(et => et.toLowerCase().includes(tag)));
     });
   }
-  
   if (dateFrom) {
     const fromDate = new Date(dateFrom);
     entries = entries.filter(e => new Date(e.date) >= fromDate);
   }
-  
   if (dateTo) {
     const toDate = new Date(dateTo);
     entries = entries.filter(e => new Date(e.date) <= toDate);
   }
+  if (favorite === 'true') entries = entries.filter(e => e.favorite);
+  else if (favorite === 'false') entries = entries.filter(e => !e.favorite);
+  if (hasReminder === 'true') entries = entries.filter(e => e.reminder);
+  else if (hasReminder === 'false') entries = entries.filter(e => !e.reminder);
   
-  if (favorite === 'true') {
-    entries = entries.filter(e => e.favorite);
-  } else if (favorite === 'false') {
-    entries = entries.filter(e => !e.favorite);
-  }
-  
-  if (hasReminder === 'true') {
-    entries = entries.filter(e => e.reminder);
-  } else if (hasReminder === 'false') {
-    entries = entries.filter(e => !e.reminder);
-  }
-  
-  // Mostrar resultados en la pestaña de búsqueda
   displayAdvancedSearchResults(entries);
 });
 
-// Limpiar filtros avanzados
 document.getElementById('clearAdvancedFilters').addEventListener('click', () => {
   document.getElementById('advancedSearchText').value = '';
   document.getElementById('advancedSearchCategory').value = '';
@@ -1830,12 +2267,9 @@ document.getElementById('clearAdvancedFilters').addEventListener('click', () => 
   document.getElementById('advancedSearchDateTo').value = '';
   document.getElementById('advancedSearchFavorite').value = '';
   document.getElementById('advancedSearchReminder').value = '';
-  
-  // Limpiar resultados
   document.getElementById('advancedSearchResults').innerHTML = '';
 });
 
-// Mostrar resultados de búsqueda avanzada
 function displayAdvancedSearchResults(entries) {
   const resultsContainer = document.getElementById('advancedSearchResults');
   resultsContainer.innerHTML = '';
@@ -1845,18 +2279,14 @@ function displayAdvancedSearchResults(entries) {
     return;
   }
   
-  // Ordenar por prioridad
   const priorityOrder = { 'Alta':1, 'Media':2, 'Baja':3, '':4 };
   entries.sort((a,b) => priorityOrder[a.priority||''] - priorityOrder[b.priority||'']);
-  
-  // Asignar números correlativos
   entries.forEach((e, idx) => { e.numero = idx+1; });
   
   entries.forEach(e => {
     const div = document.createElement('div'); 
     div.className = 'entry fade-in';
     
-    // Añadir clases según prioridad y estado
     if (e.priority === 'Alta') div.classList.add('priority-high');
     else if (e.priority === 'Media') div.classList.add('priority-medium');
     else if (e.priority === 'Baja') div.classList.add('priority-low');
@@ -1866,13 +2296,11 @@ function displayAdvancedSearchResults(entries) {
     else if (e.status === 'En pausa') div.classList.add('status-paused');
     else if (e.status === 'Con incidencia') div.classList.add('status-issue');
     
-    // Verificar si el recordatorio está activo
     const now = new Date().getTime();
     if (e.reminder && e.reminder <= now && !e.reminderNotified) {
       div.classList.add('reminder-active');
     }
     
-    // Formatear fecha del recordatorio si existe
     let reminderBadge = '';
     if (e.reminder) {
       const reminderDate = new Date(e.reminder);
@@ -1880,11 +2308,10 @@ function displayAdvancedSearchResults(entries) {
       if (reminderDate > now) {
         reminderBadge = `<span class="reminder-badge">Recordatorio: ${reminderDate.toLocaleString()}</span>`;
       } else if (!e.reminderNotified) {
-        reminderBadge = `<span class="reminder-badge" style="background:#f44336;color:white;">¡Recordatorio activo!</span>`;
+        reminderBadge = `<span class="reminder-badge" style="background:#ff453a;color:white;">¡Recordatorio activo!</span>`;
       }
     }
     
-    // Mostrar etiquetas si existen
     let tagsHTML = '';
     if (e.tags && e.tags.length > 0) {
       tagsHTML = `<div class="tags-container">`;
@@ -1921,7 +2348,6 @@ function displayAdvancedSearchResults(entries) {
         </select>
       </div>`;
     
-    // Agregar evento de doble clic para abrir modal de edición
     div.addEventListener('dblclick', () => {
       openEditModal(e.id, e.text, e.category, e.tags, e.reminder, e.favorite);
     });
@@ -1930,7 +2356,6 @@ function displayAdvancedSearchResults(entries) {
   });
 }
 
-// Actualizar prioridad
 function updatePriority(id, priority) {
   const entries = getStoredEntries();
   const entry = entries.find(e => e.id === id);
@@ -1942,25 +2367,18 @@ function updatePriority(id, priority) {
   }
 }
 
-// Actualizar estado
 function updateStatus(id, status) {
   const entries = getStoredEntries();
   const entry = entries.find(e => e.id === id);
   if (entry) {
     entry.status = status;
-    
-    // Si se marca como completo, quitar el recordatorio activo
-    if (status === 'Completo') {
-      entry.reminderNotified = true;
-    }
-    
+    if (status === 'Completo') entry.reminderNotified = true;
     setStoredEntries(entries);
     refreshEntriesUI();
     updateStats();
   }
 }
 
-// Verificar recordatorios
 function checkReminders() {
   const entries = getStoredEntries();
   const now = new Date().getTime();
@@ -1968,7 +2386,6 @@ function checkReminders() {
   
   entries.forEach(entry => {
     if (entry.reminder && entry.reminder <= now && !entry.reminderNotified && entry.status !== 'Completo') {
-      // Mostrar notificación
       if (Notification.permission === 'granted') {
         new Notification('Scriptum - Recordatorio', {
           body: `${entry.text.substring(0, 50)}...`,
@@ -1984,8 +2401,6 @@ function checkReminders() {
           }
         });
       }
-      
-      // Marcar como notificado
       entry.reminderNotified = true;
       hasActiveReminders = true;
     }
@@ -1993,20 +2408,18 @@ function checkReminders() {
   
   if (hasActiveReminders) {
     setStoredEntries(entries);
-    refreshEntriesUI(); // Actualizar la UI inmediatamente
+    refreshEntriesUI();
   }
 }
 
-// Verificar recordatorios cada minuto
 setInterval(checkReminders, 60000);
 
-// Solicitar permiso para notificaciones al cargar
 if ('Notification' in window) {
   Notification.requestPermission();
 }
 
-// Inicializar estadísticas al cargar
 window.addEventListener('load', () => {
+  applyAppearance();
   if (SESSION.unlocked) {
     updateStats();
   }
@@ -2103,19 +2516,19 @@ document.getElementById('shareWordBtn').addEventListener('click',()=>{
 </script>
 
 <div style="text-align:center; font-size:0.85rem; color:#555; position:fixed; bottom:10px; width:100%; z-index:101;">
-    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+    <div style="display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;">
         <img src="https://raw.githubusercontent.com/internalcontrolengineering/Desarrollos/main/LogoCI-G.png" 
              alt="Control Interno" 
-             style="height: 22px; width: auto; object-fit: contain; opacity: 0.5;">
-        <div style="width: 1px; height: 24px; background-color: #cbd5e1;"></div>
-        <div style="display: flex; flex-direction: column; line-height: 1.2;">
-            <span style="font-size: 0.5rem; color: #0A2540;">Control Interno</span>
-            <span style="font-size: 0.4rem; color: #94a3b8; font-weight: 500;">Ingeniería de Control</span>
+             style="height:22px; width:auto; object-fit:contain; opacity:0.5;">
+        <div style="width:1px; height:24px; background-color:#cbd5e1;"></div>
+        <div style="display:flex; flex-direction:column; line-height:1.2;">
+            <span style="font-size:0.5rem; color:#0A2540;">Control Interno</span>
+            <span style="font-size:0.4rem; color:#94a3b8; font-weight:500;">Ingeniería de Control</span>
         </div>
-        <div style="width: 1px; height: 24px; background-color: #cbd5e1;"></div>
-        <div style="display: flex; flex-direction: column; line-height: 1.2;">
-            <span style="font-size: 0.5rem; color: #0A2540;">Scriptum</span>
-            <span style="font-size: 0.4rem; color: #94a3b8; font-weight: 500;">V1.0 | Mayo 2026</span>
+        <div style="width:1px; height:24px; background-color:#cbd5e1;"></div>
+        <div style="display:flex; flex-direction:column; line-height:1.2;">
+            <span style="font-size:0.5rem; color:#0A2540;">Scriptum | Wallet</span>
+            <span style="font-size:0.4rem; color:#94a3b8; font-weight:500;">V1.0 | Mayo 2026</span>
         </div>
     </div>
 </div>
